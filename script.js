@@ -63,20 +63,28 @@ form.addEventListener("submit",function(e){
 
 function updateTable(){
     tableBody.innerHTML = "";
-    items.forEach((item,index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-        <td>${item.name}</td>
-        <td>${item.lastname}</td>
-        <td>${item.phone}</td>
-        <td>${item.email}</td>
-        <td>
-        <button class="btn btn-warning btn-sm edit" onClick="edit(${index})">Edit</button>
-        <button class="btn btn-danger btn-sm danger" onClick="deleteItem(${index})">Delete</button>
-        </td>
-        `
-        tableBody.appendChild(row);
-    })
+    if(items.length ===0){
+        const noRecords = document.createElement("tr");
+        noRecords.innerHTML = `<td colspan ="5"><h2>No Records Entered Yet</h2></td>`;
+        tableBody.appendChild(noRecords);
+    }
+    else {
+        items.forEach((item,index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.lastname}</td>
+            <td>${item.phone}</td>
+            <td>${item.email}</td>
+            <td>
+            <button class="btn btn-warning btn-sm edit" onClick="edit(${index})">Edit</button>
+            <button class="btn btn-danger btn-sm danger" onClick="deleteItem(${index})">Delete</button>
+            </td>
+            `
+            tableBody.appendChild(row);
+        })
+    }
+
 }
 
 function edit(index){
@@ -89,7 +97,6 @@ function edit(index){
 
     if(name.trim() == "" || name ==null){
         alert("Inavlid Name");
-        form.reset();
         return;
     }
     else if(lastname.trim() == "" || lastname == null){
