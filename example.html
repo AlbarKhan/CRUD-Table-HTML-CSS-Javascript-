@@ -123,43 +123,7 @@
         let editingIndex = -1; // Variable to track the index of the item being edited
 
     // Function to start editing an item
-    function editItem(index) {
-        editingIndex = index;
-        const itemToEdit = items[index];
-        const editForm = document.getElementById("edit-form");
-        const editNameInput = document.getElementById("edit-name");
-        const editDescriptionInput = document.getElementById("edit-description");
-
-        // Pre-fill the edit form with the item's data
-        editNameInput.value = itemToEdit.name;
-        editDescriptionInput.value = itemToEdit.description;
-
-        // Show the edit form and hide the add form
-        document.getElementById("form-container").style.display = "none";
-        document.getElementById("edit-form-container").style.display = "block";
-    }
-
-    // Function to save the edited item
-    document.getElementById("edit-form").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const editedName = document.getElementById("edit-name").value;
-        const editedDescription = document.getElementById("edit-description").value;
-
-        // Update the item's data in the items array
-        const editedItem = items[editingIndex];
-        editedItem.name = editedName;
-        editedItem.description = editedDescription;
-
-        // Update the table and reset the form
-        updateTable();
-        document.getElementById("edit-form").reset();
-
-        // Hide the edit form and show the add form
-        document.getElementById("form-container").style.display = "block";
-        document.getElementById("edit-form-container").style.display = "none";
-        editingIndex = -1; // Reset the editing index
-    });
+ 
 
     // Function to cancel editing and return to the add form
     function cancelEdit() {

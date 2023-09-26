@@ -24,10 +24,11 @@
 
 const  form = document.getElementById("form");
 const tableBody = document.getElementById("table-body");
+const btn = document.getElementById("submit-btn");
 
 const items = [];
 
-form.addEventListener("submit",function(e){
+btn.addEventListener("click",function(e){
     e.preventDefault();
     
     const name = document.getElementById("firstName").value;
@@ -35,37 +36,77 @@ form.addEventListener("submit",function(e){
     const phone = document.getElementById("phonenumber").value;
     const email = document.getElementById("email").value;
     if(name.trim() == "" || name ==null){
-        alert("Inavlid Name");
+        // alert("Inavlid Name");
+        document.getElementById("err-name").textContent = "Please enter valid name";
+        document.getElementById("err-name").style.display = "block";
         return;
     }
-    else if(lastname.trim() == "" || lastname == null){
-        alert("Inavlid Last Name");
+    else{
+        document.getElementById("err-name").style.display = "none";
+    }
+    if(items.some((item)=>item.name == name)){
+        document.getElementById("err-name").textContent = "Name Already exist's";
+        document.getElementById("err-name").style.display  = "block";
         return;
     }
-    else if (phone.length>10 || phone.length<10 || phone== null){
-        alert("Invalid Phone Number");
+    else{
+        document.getElementById("err-name").style.display - "none";
+    }
+    if(lastname.trim() == "" || lastname == null){
+        document.getElementById("err-lastname").style.display = "block";
         return;
     }
-    else if(email.trim() == ""  || email == null){
-        alert("Invalid Email-ID");
+    else {
+        document.getElementById("err-lastname").style.display = "none";
+    }
+    if (phone.length == null || phone.length < 1  ){
+        // alert("Invalid Phone Number");
+        document.getElementById("err-number").textContent = "Phone no can't be blank";
+        document.getElementById("err-number").style.display = "block";
         return;
+    }
+    else{
+        document.getElementById("err-number").style.display = "none";
+    }
+    if(phone.length<10){
+        document.getElementById("err-number").textContent = "Phone no can't be Less Than 10";
+        document.getElementById("err-number").style.display = "block";
+        return ;
+    }
+    else{
+        document.getElementById("err-number").style.display = "none";
+    }
+    if(phone.length>10){
+        document.getElementById("err-number").textContent = "Phone no can't be greater Than 10";
+        document.getElementById("err-number").style.display = "block";
+        return ;
+    }
+    else {
+        document.getElementById("err-number").style.display = "none";
+    }
+    if(email.trim() == ""  || email == null){
+        // alert("Invalid Email-ID");
+        document.getElementById("err-mail").style.display = "block";
+        return;
+    }
+    else{
+        document.getElementById("err-mail").style.display = "none";
     }
 
-    else{
-        const newItems = {name,lastname,phone,email};
+    const newItems = {name,lastname,phone,email};
 
     items.push(newItems);
 
     updateTable();
     form.reset();
-    }
+
 });
 
 function updateTable(){
     tableBody.innerHTML = "";
     if(items.length ===0){
         const noRecords = document.createElement("tr");
-        noRecords.innerHTML = `<td colspan ="5"><h2>No Records Entered Yet</h2></td>`;
+        noRecords.innerHTML = `<td colspan ="5" class="table-title"><h2>No Records Entered Yet</h2></td>`;
         tableBody.appendChild(noRecords);
     }
     else {
@@ -90,35 +131,84 @@ function updateTable(){
 function edit(index){
     const editedItem = items[index];
 
-    const  name = prompt("Edit Name:", editedItem.name);
-    const  lastname = prompt("Edit LastName: ", editedItem.lastname);
-    const  phone = prompt("Edit Phone Number: ", editedItem.phone);
-    const email = prompt("Edit Email: ",editedItem.email);
+    // const  name = prompt("Edit Name:", editedItem.name);
+    // const  lastname = prompt("Edit LastName: ", editedItem.lastname);
+    // const  phone = prompt("Edit Phone Number: ", editedItem.phone);
+    // const email = prompt("Edit Email: ",editedItem.email);
 
-    if(name.trim() == "" || name ==null){
-        alert("Inavlid Name");
+    const editname = editedItem.name;
+    const editlastname = editedItem.lastname;
+    const editphone = editedItem.phone;
+    const editemail = editedItem.email;
+
+    document.getElementById("firstName").value = editname
+    document.getElementById("lastName").value = editlastname;
+    document.getElementById("phonenumber").value = editphone;
+    document.getElementById("email").value = editemail;
+
+    if(editname.trim() == "" || editname ==null){
+        // alert("Inavlid Name");
+        document.getElementById("err-name").textContent = "Please enter valid name";
+        document.getElementById("err-name").style.display = "block";
         return;
     }
-    else if(lastname.trim() == "" || lastname == null){
-        alert("Inavlid Last Name");
+    else{
+        document.getElementById("err-name").style.display = "none";
+    }
+    if(items.some((item)=>item.name == editname)){
+        document.getElementById("err-name").textContent = "Name Already exist's";
+        document.getElementById("err-name").style.display  = "block";
         return;
     }
-    else if (phone.length>10 || phone.length<10 || phone== null){
-        alert("Invalid Phone Number");
+    else{
+        document.getElementById("err-name").style.display - "none";
+    }
+    if(editlastname.trim() == "" || lastname == null){
+        document.getElementById("err-lastname").style.display = "block";
         return;
     }
-    else if(email.trim() == ""  || email == null){
-        alert("Invalid Email-ID");
+    else {
+        document.getElementById("err-lastname").style.display = "none";
+    }
+    if (phone.length == null || phone.length < 1  ){
+        // alert("Invalid Phone Number");
+        document.getElementById("err-number").textContent = "Phone no can't be blank";
+        document.getElementById("err-number").style.display = "block";
         return;
+    }
+    else{
+        document.getElementById("err-number").style.display = "none";
+    }
+    if(phone.length<10){
+        document.getElementById("err-number").textContent = "Phone no can't be Less Than 10";
+        document.getElementById("err-number").style.display = "block";
+        return ;
+    }
+    else{
+        document.getElementById("err-number").style.display = "none";
+    }
+    if(phone.length>10){
+        document.getElementById("err-number").textContent = "Phone no can't be greater Than 10";
+        document.getElementById("err-number").style.display = "block";
+        return ;
+    }
+    else {
+        document.getElementById("err-number").style.display = "none";
+    }
+    if(email.trim() == ""  || email == null){
+        // alert("Invalid Email-ID");
+        document.getElementById("err-mail").style.display = "block";
+        return;
+    }
+    else{
+        document.getElementById("err-mail").style.display = "none";
     }
     // const  invalidPhone = phone !== null && phone !=="" && phone.length>10 && phone.length<10;
-    else{
-        editedItem.name = name;
-        editedItem.lastname = lastname;
-        // editedItem.phone = phone;
-        editedItem.email = email;
+        editedItem.name = editname;
+        editedItem.lastname = editlastname;
+        editedItem.phone = editphone;
+        editedItem.email = editemail;
         updateTable();
-    }
 }
 
 function deleteItem(index){
