@@ -21,36 +21,27 @@
 //         showAlert("Data Deleted","danger");
 //     }
 // });
-
 const  form = document.getElementById("form");
 const tableBody = document.getElementById("table-body");
-const btn = document.getElementById("submit-btn");
-
 const items = [];
 
-btn.addEventListener("click",function(e){
+form.addEventListener("submit",function(e){
     e.preventDefault();
     
     const name = document.getElementById("firstName").value;
     const lastname = document.getElementById("lastName").value;
     const phone = document.getElementById("phonenumber").value;
     const email = document.getElementById("email").value;
+
+    let phonemsg = document.getElementById("phonenumber");
+
     if(name.trim() == "" || name ==null){
-        // alert("Inavlid Name");
         document.getElementById("err-name").textContent = "Please enter valid name";
         document.getElementById("err-name").style.display = "block";
         return;
     }
     else{
         document.getElementById("err-name").style.display = "none";
-    }
-    if(items.some((item)=>item.name == name)){
-        document.getElementById("err-name").textContent = "Name Already exist's";
-        document.getElementById("err-name").style.display  = "block";
-        return;
-    }
-    else{
-        document.getElementById("err-name").style.display - "none";
     }
     if(lastname.trim() == "" || lastname == null){
         document.getElementById("err-lastname").style.display = "block";
@@ -61,28 +52,28 @@ btn.addEventListener("click",function(e){
     }
     if (phone.length == null || phone.length < 1  ){
         // alert("Invalid Phone Number");
-        document.getElementById("err-number").textContent = "Phone no can't be blank";
-        document.getElementById("err-number").style.display = "block";
+        phonemsg.textContent = "Phone no can't be blank";
+        phonemsg.style.display = "block";
         return;
     }
     else{
-        document.getElementById("err-number").style.display = "none";
+        phonemsg.style.display = "none";
     }
     if(phone.length<10){
-        document.getElementById("err-number").textContent = "Phone no can't be Less Than 10";
-        document.getElementById("err-number").style.display = "block";
+        phonemsg.textContent = "Phone no can't be Less Than 10";
+        phonemsg.style.display = "block";
         return ;
     }
     else{
-        document.getElementById("err-number").style.display = "none";
+        phonemsg.style.display = "none";
     }
     if(phone.length>10){
-        document.getElementById("err-number").textContent = "Phone no can't be greater Than 10";
-        document.getElementById("err-number").style.display = "block";
+        phonemsg.textContent = "Phone no can't be greater Than 10";
+        phonemsg.style.display = "block";
         return ;
     }
     else {
-        document.getElementById("err-number").style.display = "none";
+        phonemsg.style.display = "none";
     }
     if(email.trim() == ""  || email == null){
         // alert("Invalid Email-ID");
@@ -92,11 +83,36 @@ btn.addEventListener("click",function(e){
     else{
         document.getElementById("err-mail").style.display = "none";
     }
+    if(isValidEmail(email)){
+        // 
+    }
+    else{
+        document.getElementById("err-mail").style.display = "block";
+        return ;
+    }
+    if (editingIndex === -1) {
+        if(items.some((item)=>item.name == name)){
+            document.getElementById("err-name").textContent = "Name Already exist's";
+            document.getElementById("err-name").style.display  = "block";
+            return;
+        }
+        else{
+            document.getElementById("err-name").style.display - "none";
+            const newItems = {name,lastname,phone,email};
+            items.push(newItems);
+        }
+    }
+    else{
+        const editedItem = items[editingIndex];
 
-    const newItems = {name,lastname,phone,email};
-
-    items.push(newItems);
-
+        editedItem.name = name;
+        editedItem.lastname =lastname;
+        editedItem.phone  = phone;
+        editedItem.email = email;
+        document.getElementById("update-btn").style.display ="none";
+        document.getElementById("cancel-btn").style.display = "none";
+        document.getElementById("submit-btn").style.display = "block";
+    }
     updateTable();
     form.reset();
 
@@ -128,13 +144,10 @@ function updateTable(){
 
 }
 
+let editingIndex = -1;
 function edit(index){
     const editedItem = items[index];
-
-    // const  name = prompt("Edit Name:", editedItem.name);
-    // const  lastname = prompt("Edit LastName: ", editedItem.lastname);
-    // const  phone = prompt("Edit Phone Number: ", editedItem.phone);
-    // const email = prompt("Edit Email: ",editedItem.email);
+    editingIndex = index;
 
     const editname = editedItem.name;
     const editlastname = editedItem.lastname;
@@ -146,71 +159,11 @@ function edit(index){
     document.getElementById("phonenumber").value = editphone;
     document.getElementById("email").value = editemail;
 
-    if(editname.trim() == "" || editname ==null){
-        // alert("Inavlid Name");
-        document.getElementById("err-name").textContent = "Please enter valid name";
-        document.getElementById("err-name").style.display = "block";
-        return;
-    }
-    else{
-        document.getElementById("err-name").style.display = "none";
-    }
-    if(items.some((item)=>item.name == editname)){
-        document.getElementById("err-name").textContent = "Name Already exist's";
-        document.getElementById("err-name").style.display  = "block";
-        return;
-    }
-    else{
-        document.getElementById("err-name").style.display - "none";
-    }
-    if(editlastname.trim() == "" || lastname == null){
-        document.getElementById("err-lastname").style.display = "block";
-        return;
-    }
-    else {
-        document.getElementById("err-lastname").style.display = "none";
-    }
-    if (phone.length == null || phone.length < 1  ){
-        // alert("Invalid Phone Number");
-        document.getElementById("err-number").textContent = "Phone no can't be blank";
-        document.getElementById("err-number").style.display = "block";
-        return;
-    }
-    else{
-        document.getElementById("err-number").style.display = "none";
-    }
-    if(phone.length<10){
-        document.getElementById("err-number").textContent = "Phone no can't be Less Than 10";
-        document.getElementById("err-number").style.display = "block";
-        return ;
-    }
-    else{
-        document.getElementById("err-number").style.display = "none";
-    }
-    if(phone.length>10){
-        document.getElementById("err-number").textContent = "Phone no can't be greater Than 10";
-        document.getElementById("err-number").style.display = "block";
-        return ;
-    }
-    else {
-        document.getElementById("err-number").style.display = "none";
-    }
-    if(email.trim() == ""  || email == null){
-        // alert("Invalid Email-ID");
-        document.getElementById("err-mail").style.display = "block";
-        return;
-    }
-    else{
-        document.getElementById("err-mail").style.display = "none";
-    }
-    // const  invalidPhone = phone !== null && phone !=="" && phone.length>10 && phone.length<10;
-        editedItem.name = editname;
-        editedItem.lastname = editlastname;
-        editedItem.phone = editphone;
-        editedItem.email = editemail;
-        updateTable();
-}
+    document.getElementById("update-btn").style.display ="inline";
+    document.getElementById("cancel-btn").style.display = "inline";
+    document.getElementById("submit-btn").style.display = "none";
 
+}
 function deleteItem(index){
     const confirmDelete = confirm("Are You Sure You want to delete");
     if (confirmDelete) {
@@ -218,6 +171,20 @@ function deleteItem(index){
         updateTable();
     }
 }
+
+function cancel(){
+    document.getElementById("update-btn").style.display = "none";
+    document.getElementById("submit-btn").style.display = "block";
+    document.getElementById("cancel-btn").style.display = "none";
+
+    form.reset();
+}
+function isValidEmail(Email) {
+    // Regular expression for basic email validation
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    return emailRegex.test(Email);
+  }
 
 updateTable();
 
