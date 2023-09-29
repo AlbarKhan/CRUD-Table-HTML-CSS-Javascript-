@@ -17,12 +17,25 @@
             color: rgba(255, 0, 0, 0.582);
             font-size: 20px;
         }
+    .notify {
+        width: 100%;
+        background-color: rgba(255, 0, 0, 0.488);
+        color: #1d2630;
+        padding: 10px;
+        border-radius: 20px;
+        /* height: 30px; */
+        display: none;
+        font-size: 18px;
+    }
     </style>
 </head>
 <body style="color: white; background-color: #1d2630;">
     <div class="container mt-5">
         <div class="text-center">
             <h1 class="display-5 mb-5"><strong>CRUD Application</strong></h1>
+        </div>
+        <div class="notify" id="notify">
+
         </div>
         <div class="main row justify-content-center">
             <form action="" id="form" class="row justify-content-center mb-4" autocomplete="off">

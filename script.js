@@ -33,8 +33,6 @@ form.addEventListener("submit",function(e){
     const phone = document.getElementById("phonenumber").value;
     const email = document.getElementById("email").value;
 
-    let phonemsg = document.getElementById("phonenumber");
-
     if(name.trim() == "" || name ==null){
         document.getElementById("err-name").textContent = "Please enter valid name";
         document.getElementById("err-name").style.display = "block";
@@ -52,28 +50,28 @@ form.addEventListener("submit",function(e){
     }
     if (phone.length == null || phone.length < 1  ){
         // alert("Invalid Phone Number");
-        phonemsg.textContent = "Phone no can't be blank";
-        phonemsg.style.display = "block";
+        document.getElementById("err-number").textContent = "Phone can't be Blank";
+        document.getElementById("err-number").style.display = "block";
         return;
     }
     else{
-        phonemsg.style.display = "none";
+        document.getElementById("err-number").style.display = "none";
     }
     if(phone.length<10){
-        phonemsg.textContent = "Phone no can't be Less Than 10";
-        phonemsg.style.display = "block";
+        document.getElementById("err-number").textContent = "Phone no can't be Less Than 10";
+        document.getElementById("err-number").style.display = "block";
         return ;
     }
     else{
-        phonemsg.style.display = "none";
+        document.getElementById("err-number").style.display = "none";
     }
     if(phone.length>10){
-        phonemsg.textContent = "Phone no can't be greater Than 10";
-        phonemsg.style.display = "block";
+        document.getElementById("err-number").textContent = "Phone no can't be greater Than 10";
+        document.getElementById("err-number").style.display = "block";
         return ;
     }
     else {
-        phonemsg.style.display = "none";
+        document.getElementById("err-number").style.display = "none";
     }
     if(email.trim() == ""  || email == null){
         // alert("Invalid Email-ID");
@@ -90,7 +88,8 @@ form.addEventListener("submit",function(e){
         document.getElementById("err-mail").style.display = "block";
         return ;
     }
-    if (editingIndex === -1) {
+    const notify = document.getElementById("notify");
+    if (editingIndex == -1) {
         if(items.some((item)=>item.name == name)){
             document.getElementById("err-name").textContent = "Name Already exist's";
             document.getElementById("err-name").style.display  = "block";
@@ -100,6 +99,9 @@ form.addEventListener("submit",function(e){
             document.getElementById("err-name").style.display - "none";
             const newItems = {name,lastname,phone,email};
             items.push(newItems);
+            notify.style.display = "block";
+            notify.textContent = "Submitted";
+            notify.style.backgroundColor = "#99FF99";
         }
     }
     else{
@@ -112,6 +114,10 @@ form.addEventListener("submit",function(e){
         document.getElementById("update-btn").style.display ="none";
         document.getElementById("cancel-btn").style.display = "none";
         document.getElementById("submit-btn").style.display = "block";
+        notify.style.display = "block";
+        notify.textContent = "Edited";
+        notify.style.backgroundColor = "#99FF99";
+        editingIndex = -1;
     }
     updateTable();
     form.reset();
@@ -165,11 +171,15 @@ function edit(index){
 
 }
 function deleteItem(index){
-    const confirmDelete = confirm("Are You Sure You want to delete");
-    if (confirmDelete) {
+    // const confirmDelete = confirm("Are You Sure You want to delete");
+    const notify = document.getElementById("notify");
+    // if (confirmDelete) {
         items.splice(index,1);
+        notify.style.display = "block";
+        notify.textContent = "Deleted";
+        notify.style.backgroundColor = "#FF6666"
         updateTable();
-    }
+    // }
 }
 
 function cancel(){
