@@ -21,14 +21,21 @@
 //         showAlert("Data Deleted","danger");
 //     }
 // });
-'use strict';
+"use strict";
 const form = document.getElementById("form");
 const tableBody = document.getElementById("table-body");
-const items = [];
+let items = [];
+
+const storeData = localStorage.getItem("items");
+console.log(storeData);
+
+if (storeData) {
+  items = JSON.parse(storeData);
+  updateTable();
+}
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-
   const name = document.getElementById("firstName").value;
   const lastname = document.getElementById("lastName").value;
   const phone = document.getElementById("phonenumber").value;
@@ -118,6 +125,7 @@ form.addEventListener("submit", function (e) {
 });
 
 function updateTable() {
+  localStorage.setItem("items", JSON.stringify(items));
   tableBody.innerHTML = "";
   if (items.length === 0) {
     const noRecords = document.createElement("tr");
@@ -169,6 +177,7 @@ function deleteItem(index) {
   notify.style.display = "block";
   notify.textContent = "Deleted";
   notify.style.backgroundColor = "#FF6666";
+  localStorage.removeItem("items");
   updateTable();
   // }
 }
